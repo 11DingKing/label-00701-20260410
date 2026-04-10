@@ -101,6 +101,20 @@ const playTrack = (index) => {
 
 const prevTrack = () => {
   if (playlist.value.length === 0) return;
+
+  // 如果开启了单曲循环，不切歌，只重新播放当前曲目
+  if (isLoop.value) {
+    console.log(
+      `[App] 单曲循环模式，重新播放当前曲目: ${playlist.value[currentIndex.value].name}`,
+    );
+    // 触发重新播放：先暂停再播放
+    isPlaying.value = false;
+    setTimeout(() => {
+      isPlaying.value = true;
+    }, 0);
+    return;
+  }
+
   const oldIndex = currentIndex.value;
   currentIndex.value =
     currentIndex.value > 0 ? currentIndex.value - 1 : playlist.value.length - 1;
